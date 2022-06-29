@@ -1,4 +1,4 @@
-apiVersion: backstage.io/v1beta2
+apiVersion: backstage.io/v1beta3
 kind: Template
 metadata:
   name: create-pr-to-existing-project
@@ -50,10 +50,10 @@ spec:
         copyWithoutRender:
           - .github/workflows/*
         values:
-          component_id: '{{ parameters.component_id }}'
-          description: '{{ parameters.description }}'
-          destination: '{{ parseRepoUrl parameters.repoUrl }}'
-          owner: '{{ parameters.owner }}'
+          component_id: '${{ parameters.component_id }}'
+          description: '${{ parameters.description }}'
+          destination: '${{ parseRepoUrl parameters.repoUrl }}'
+          owner: '${{ parameters.owner }}'
 
     - action: fs:rename
       id: rename-files
@@ -74,4 +74,4 @@ spec:
         #targetPath: ./subdirectory
 
   output:
-    remoteUrl: '{{ steps.publish.output.remoteUrl }}'
+    remoteUrl: '${{ steps.publish.output.remoteUrl }}'
