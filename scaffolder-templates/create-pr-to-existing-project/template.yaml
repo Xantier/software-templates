@@ -61,7 +61,14 @@ spec:
       input:
         files:
           - from: .github/workflows/pull-request.yaml
-            to: ../.github/workflows/pull-request.yaml
+            to: .github/workflows/pull-request.yaml
+
+
+    - id: log-message
+      name: Log Message
+      action: debug:log
+      input:
+        listWorkspace: true
 
     - action: publish:github:pull-request
       id: create-pull-request
@@ -70,7 +77,7 @@ spec:
         repoUrl: 'github.com?repo=software-templates&owner=Xantier'
         branchName: ticketNumber-123
         title: 'Make some changes to the files'
-        description: 'This pull request makes canges to the files in the reponame repository in the AcmeInc organization'
+        description: 'This pull request makes changes to the files in the reponame repository in the AcmeInc organization'
         #targetPath: ./subdirectory
 
   output:
