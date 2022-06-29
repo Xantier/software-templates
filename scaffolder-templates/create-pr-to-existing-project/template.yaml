@@ -1,9 +1,9 @@
 apiVersion: backstage.io/v1beta2
 kind: Template
 metadata:
-  name: create-empty-project
-  title: Create Empty Project
-  description: Create Empty Project
+  name: create-pr-to-existing-project
+  title: Create PR to existing project
+  description: Create PR to existing project
 
 spec:
   owner: info@roadie.io
