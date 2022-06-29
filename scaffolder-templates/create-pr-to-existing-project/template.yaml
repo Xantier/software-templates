@@ -61,7 +61,7 @@ spec:
       input:
         files:
           - from: .github/workflows/pull-request.yaml
-            to: .github/workflows/pull-request.yaml
+            to: .github/workflows/pull-request-renamed.yaml
 
 
     - id: log-message
