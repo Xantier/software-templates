@@ -1,0 +1,26 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: tenant-backstage
+  namespace: flux-system
+spec:
+  image: account_id.dkr.ecr.region.amazonaws.com/${{ values.tenant_name }}-backstage
+  interval: 1m0s
+  secretRef:
+    name: ecr-secret
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: tenant-backstage
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: ${{ values.tenant_name }}-backstage
+  filterTags:
+    pattern: ".*-(?P<date>[0-9T]*)$"
+    extract: "$date"
+  policy:
+    alphabetical:
+      order: asc

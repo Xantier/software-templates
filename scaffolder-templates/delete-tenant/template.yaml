@@ -1,0 +1,52 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: delete-tenant
+  title: Delete tenant
+  description: Send an API call to the tenant manager to delete a tenant.
+
+spec:
+  owner: user:dtuite
+  type: none
+  parameters:
+    - title: Provide some simple information
+      required:
+        - tenant_name
+        - tenant_email_domain
+        - tenant_environment
+      properties:
+        tenant_name:
+          title: Name
+          type: string
+          description: No special chars, numbers as the first char, or dashes as the first or last char. 
+          ui:autofocus: true
+        tenant_email_domain:
+          title: Email domain
+          type: string
+          description: The email domain of users who will be allowed to access the tenant.S
+        tenant_environment:
+          title: Environment
+          type: string
+          default: dev
+          enum: ['dev', 'prod']
+            
+  steps:
+    - id: deleteTenant
+      name: Delete tenant
+      action: http:backstage:request
+      input:
+        method: 'DELETE'
+        # path: /api/proxy/${{ '' if parameters.tenant_environment === 'prod' else 'dev-' }}tenant-manager/api/tenant
+        path: /api/proxy/dev-tenant-manager/api/tenant
+        headers:
+          # This is specified here rather than in the proxy in order to ensure that
+          # http:backstage:request treats the body as JSON.
+          content-type: 'application/json'
+        body:
+          tenantName: ${{ parameters.tenant_name }}
+          tenantEmailDomain: ${{ parameters.tenant_email_domain }}
+          tenantEnvironment: dev
+          skipFailures: true
+
+  output:
+    resp: ${{ steps.callTenantManager.output.body }}
